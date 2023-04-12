@@ -16,7 +16,12 @@ module Project
     # These settings can be overridden in specific environments using the files
     # in config/environments, which are processed later.
     #
-    # config.time_zone = "Central Time (US & Canada)"
+    config.time_zone = "Mexico City"
     # config.eager_load_paths << Rails.root.join("extras")
+    config.log_level = :debug
+    config.log_tags  = [:subdomain, :uuid]
+    config.logger    = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
+    config.cache_store = :redis_store, ENV['CACHE_URL'], { namespace: 'project::cache' }
+    config.active_job.queue_adapter = :sidekiq
   end
 end
