@@ -1,0 +1,22 @@
+# Dockerfile.rails
+FROM ruby:3.2.2 AS rails-toolbox
+
+# Default directory
+ENV INSTALL_PATH /opt/app
+RUN mkdir -p $INSTALL_PATH
+
+#Install node.js
+RUN apt-get install -y git-core curl build-essential openssl libssl-dev \
+ && git clone https://github.com/nodejs/node.git \
+ && cd node \
+ && ./configure \
+ && make \
+ && sudo make install
+
+# Install rails
+RUN gem install rails bundler
+#RUN chown -R user:user /opt/app
+WORKDIR /opt/app
+
+# Run a shell
+CMD ["/bin/sh"]
